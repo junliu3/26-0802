@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>无遮罩对话框</title>
+    <style>
+        /* 对话框固定定位，默认隐藏 */
+        #dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            min-width: 280px;
+            text-align: center;
+            z-index: 999;
+        }
+
+        /* 输入框样式 */
+        #dialog input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        /* 按钮样式 */
+        #dialog button {
+            padding: 6px 20px;
+            cursor: pointer;
+            margin: 0 5px;
+            border: none;
+            border-radius: 4px;
+            background: #f0f0f0;
+        }
+        #dialog button#submitBtn {
+            background: #4CAF50;
+            color: white;
+        }
+        #dialog button#closeBtn {
+            background: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 触发按钮 -->
+    <button id="openBtn">打开对话框</button>
+
+    <!-- 对话框（无遮罩） -->
+    <div id="dialog">
+        <p>请输入内容：</p>
+        <input type="text" id="userInput" placeholder="输入文字...">
+        <div>
+            <button id="submitBtn">确定</button>
+            <button id="closeBtn">关闭</button>
+        </div>
+    </div>
+
+    <script>
+        const dialog = document.getElementById('dialog');
+        const openBtn = document.getElementById('openBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const userInput = document.getElementById('userInput');
+
+        // 打开对话框
+        openBtn.addEventListener('click', () => {
+            dialog.style.display = 'block';
+            userInput.value = '';
+            userInput.focus();
+        });
+
+        // 关闭
+        function closeDialog() {
+            dialog.style.display = 'none';
+        }
+
+        closeBtn.addEventListener('click', closeDialog);
+
+        // 确定按钮
+        submitBtn.addEventListener('click', () => {
+            const text = userInput.value.trim();
+            if (text === '') {
+                alert('请输入内容');
+                return;
+            }
+            alert('您输入的是：' + text);
+            closeDialog();
+        });
+
+        // 回车触发确定
+        userInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                submitBtn.click();
+            }
+        });
+    </script>
+
+</body>
+</html>
